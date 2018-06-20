@@ -1,81 +1,56 @@
 #include <stdio.h>
 #include <string.h>
 
-<<<<<<< HEAD
-typedef struct Assassin {
-  char name[10];
-  int numberOfVictims;
-  int isAlive;
-  struct Assassin* victims[5];
-} Assassin;
+int compare_strings(char *t1, char *t2) {
+    int tam1 = sizeof(t1)/sizeof(char);
+    int tam2 = sizeof(t2)/sizeof(char);
+    int len = 0, i;
 
-int main(void) {
-  Assassin assassins[100000];
-  char assassin[10], victim[10];
-  int i = 0, nAssassins = 0, nVictims = 0;
-  Assassin a1, a2;
-  // while (scanf("%s %s", &assassins[i].name, &assassins[i].victims[i]->name) != EOF) {
-  //   i += 1;
-  // }
-
-  for (i = 0; i < 3; i++) {
-    scanf("%s %s", &assassin, &victim);
-    // strcpy(assassin, a1.name);
-    // strcpy(victim, a1.victims[a1.numberOfVictims]);
-    // strcpy(victim, a2.name);
-    a2.isAlive = 0;
-  }
-
-  // for (i = 0; i < 3; i++) {
-  //   printf("%s", assassins[i].name);
-  //   printf("%s", assassins[i].victims[i]->name);
-  // }
-
-
-  // for (int j = 0; j < i; j++) {
-  //   for (int k = 0; k < i; k++) {
-  //     if ()
-  //   }
-  // }
-
-
-=======
-typedef struct Person {
-  char name[11];
-  int isAlive;
-  struct Person** victims;
-} Person;
-
-Person createCase(char names) {
-  Person assassin;
-  char assassinName, victimName, *token;
-  int i = 0, startPosition;
-
-  while ((token = strsep(&names, ","))) {
-    if (i) {
-      assassin.name = *token;
-      i++;
-    }
+    if (tam1 != tam2)
+        return 0;
     else
-      assassin.victims = *token;
-  }
-
-
-  assassin.name = vNames[0];
-  assassin.victims = vNames[1];
-
-  return assassin;
+        len = tam1;
+    
+    for (i = 0; i < len - 1; i++) {
+        if(t1[i] != t2[i]) {
+            return 0;
+        }
+    }
+    return 1;
 }
 
-void main() {
-  char testCase[22];
-  char *token, *str, *tofree;
-  Person assassin;
+int main() {
+  char murderers[100000][10];
+  char victims[100000][10], assassin[10];
+  int numberOfMurderers = 0, isAlive, numberOfVictims;
 
-  while (scanf("%s",&testCase) != EOF) {
-    assassin = createCase(testCase);
+  while ((scanf("%s %s",murderers[numberOfMurderers], victims[numberOfMurderers])) != EOF)
+    numberOfMurderers++;
 
-    printf("Assassin: %s\nVictim: %s\n",assassin->name, assassin->victims);
+  for (int i = 0; i < numberOfMurderers; i++) {
+    strcpy(assassin, murderers[i]);
+    isAlive = 1;
+    numberOfVictims = 0;
+
+    for (int j = 0; j < numberOfMurderers; j++) {           // checks if assassin is dead
+      if (compare_strings(murderers[i], victims[j])) {
+        isAlive = 0;
+      }
+    }
+    for (int j = 0; j < i; j++) {
+      if(compare_strings(murderers[i], murderers[j]))
+        isAlive = 0;
+    }
+
+    if (isAlive == 1) {
+      for (int j = i; j < numberOfMurderers; j++) {         // checks all assassin's murders
+        if (compare_strings(murderers[i], murderers[j])) {
+          numberOfVictims++;
+        }
+      }
+      printf("%s %d\n", assassin, numberOfVictims);
+    }
   }
->>>>>>> eaf129ffb231edf8f99b9f27594a855af3ac9a71
+
+  return 0;
 }
